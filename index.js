@@ -4,7 +4,7 @@ import { promises as fs } from "fs";
 function readFileAsStringArray(filePath) {
 	try {
 		const data = readFileSync(filePath, "utf-8");
-		return data.split("\r\n").filter((line) => line.trim() !== "");
+		return data.split(/\r?\n/).filter((line) => line.trim() !== "");
 	} catch (err) {
 		console.error("Error reading file:", err);
 		throw err;
