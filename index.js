@@ -46,7 +46,7 @@ const test2 = async (wordArray) => {
 			const ehp = allData?.Overall_ehp ?? allData?.Ehp ?? allData?.im_ehp ?? 0;
 			const lvl = allData?.Overall_level ?? allData?.Overall ?? 0;
 			const sailing = allData?.Sailing_level ?? allData?.Sailing ?? 0;
-			const gameMode = allData.info["Game mode"] ?? "NA";
+			const gameMode = allData?.info?.["Game mode"] ?? 0;
 
 			const obj = {
 				name,
