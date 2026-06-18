@@ -14,9 +14,14 @@ function readFileAsStringArray(filePath) {
 const test2 = async (wordArray) => {
 	let count = 0;
 	let total = wordArray.length;
+	let delay = 1000; // 1 second delay between requests to avoid rate limits
+	console.log("Expected time to complete:", ((total * (delay + 750)) / 1000).toFixed(2), "seconds");
+	let startTime = Date.now();
 	for (const name of wordArray) {
-		console.log(`Processing ${name} (${++count}/${total})...`);
-		await new Promise((resolve) => setTimeout(resolve, 1000));
+		console.log(
+			`(${++count}/${total}) Time elapsed: ${((Date.now() - startTime) / 1000).toFixed(1)}s - Processing ${name} `,
+		);
+		await new Promise((resolve) => setTimeout(resolve, delay));
 		try {
 			const res = await fetch(`https://templeosrs.com/api/player_gains.php?player=${name}&time=month&bosses=1`);
 			const res2 = await fetch(
@@ -73,6 +78,7 @@ const test2 = async (wordArray) => {
 			console.error("Error processing", name, err);
 		}
 	}
+	console.log("Processing complete. Total time:", ((Date.now() - startTime) / 1000).toFixed(2), "seconds");
 };
 
 try {
