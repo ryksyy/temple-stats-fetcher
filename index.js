@@ -12,9 +12,10 @@ function readFileAsStringArray(filePath) {
 }
 
 const test2 = async (wordArray) => {
-	console.log(wordArray);
-
+	let count = 0;
+	let total = wordArray.length;
 	for (const name of wordArray) {
+		console.log(`Processing ${name} (${++count}/${total})...`);
 		await new Promise((resolve) => setTimeout(resolve, 1000));
 		try {
 			const res = await fetch(`https://templeosrs.com/api/player_gains.php?player=${name}&time=month&bosses=1`);
@@ -74,18 +75,17 @@ const test2 = async (wordArray) => {
 	}
 };
 
-// write csv headers
-await fs.writeFile(
-	"results.csv",
-	"name,monthEhb,ehb,ehp,lvl,sailing,CoX,CoX CM,ToB,ToB CM,Tombs,Tombs Expert,mode,Gryphon KC\n",
-);
-
 try {
 	const wordArray = readFileAsStringArray(process.argv[2]);
 	if (wordArray.length <= 0) {
 		console.error("No names to process. Please check the input file.");
 		process.exit(1);
 	}
+	// write csv headers
+	await fs.writeFile(
+		"results.csv",
+		"name,monthEhb,ehb,ehp,lvl,sailing,CoX,CoX CM,ToB,ToB CM,Tombs,Tombs Expert,mode,Gryphon KC\n",
+	);
 	test2(wordArray);
 } catch (err) {
 	console.error("Error initializing results file:", err);
